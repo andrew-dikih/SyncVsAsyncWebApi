@@ -2,6 +2,7 @@
 
 public interface IMetrics
 {
+    event EventHandler MetricsChanged;
     HashSet<long> TotalRequests { get; }
     HashSet<long> TotalResponses { get; }
     decimal MeanExecutionMs { get; }

@@ -21,12 +21,12 @@ public partial class SyncVsAsyncForm : Form
         _webServer = webServer;
         _cancellationTokenSource = new CancellationTokenSource();
         _cancellationTokenSource.Cancel();
+        _metrics.MetricsChanged += WireUi;
     }
 
     private void SyncVsAsyncForm_Load(object sender, EventArgs e)
     {
         _webServer.Start();
-        WireUi();
         numericCountThreads.Value = 10;
     }
 
@@ -51,18 +51,19 @@ public partial class SyncVsAsyncForm : Form
         return letter.ToString();
     }
 
-    private async Task WireUi()
+    private void WireUi(object? sender, EventArgs e)
     {
-        while(true)
+        if(this.InvokeRequired)
         {
-            numericRequestCount.Value = _metrics.TotalRequests.Count;
-            numericResponseCount.Value = _metrics.TotalResponses.Count;
-            numericResponseMeanMs.Value = _metrics.MeanExecutionMs/MILLISECONDS_PER_SECOND;
-            groupThreadPool.Text = $"Thread Pool ({_metrics.ThreadPool.Count})";
-            groupQueuedRequests.Text = $"Queued Requests ({_metrics.QueuedRequests.Count})";
-            groupActiveRequests.Text = $"Active Requests ({_metrics.ActiveRequests.Count})";
-            await Task.Delay(100);
+            this.Invoke(WireUi,sender, e);
+            return;
         }
+        numericRequestCount.Value = _metrics.TotalRequests.Count;
+        numericResponseCount.Value = _metrics.TotalResponses.Count;
+        numericResponseMeanMs.Value = _metrics.MeanExecutionMs / MILLISECONDS_PER_SECOND;
+        groupThreadPool.Text = $"Thread Pool ({_metrics.ThreadPool.Count})";
+        groupQueuedRequests.Text = $"Queued Requests ({_metrics.QueuedRequests.Count})";
+        groupActiveRequests.Text = $"Active Requests ({_metrics.ActiveRequests.Count})";
     }
 
     private void EnableUi(bool isEnabled)
@@ -142,11 +143,13 @@ public partial class SyncVsAsyncForm : Form
 
     private void numericResponseMs_ValueChanged(object sender, EventArgs e)
     {
+        UpdateThreads();
         CalculateExpectedResponseMs();
     }
 
     private void numericSynchMs_ValueChanged(object sender, EventArgs e)
     {
+        UpdateThreads();
         CalculateExpectedResponseMs();
     }
 

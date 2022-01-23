@@ -24,6 +24,8 @@ public class Metrics : IMetrics
     private HashSet<string> _threadPool;
     private readonly ILogger<Metrics> _logger;
 
+    public event EventHandler MetricsChanged;
+
     public Metrics(ILogger<Metrics> logger)
     {
         _logger = logger;
@@ -36,6 +38,7 @@ public class Metrics : IMetrics
         _totalRequests.Add(id);
         _queuedRequests.Add(id);
         _logger.LogDebug("{metrics}", this);
+        MetricsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void StartRequest(ActiveRequest request)
@@ -43,6 +46,7 @@ public class Metrics : IMetrics
         _logger.LogInformation("Starting {request}", request);
         _activeRequests.Add(request);
         _queuedRequests.Remove(request.RequestId);
+        MetricsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void CompleteRequest(long executionMs,long id)
@@ -52,6 +56,7 @@ public class Metrics : IMetrics
         _activeRequests.RemoveWhere(x => x.RequestId==id);
         _totalExecutionMs += executionMs;
         _logger.LogDebug("{metrics}", this);
+        MetricsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void AllocateThread(IEnumerable<IThread> threads, ActiveRequest request)
@@ -78,6 +83,7 @@ public class Metrics : IMetrics
     public void UpdateThreadPool(IEnumerable<IThread> threads)
     {
         _threadPool = threads.Select(x => x.Id).ToHashSet();
+        MetricsChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void Reset(IEnumerable<IThread> threads)
