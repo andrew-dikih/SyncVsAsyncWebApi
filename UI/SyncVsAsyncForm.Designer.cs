@@ -37,6 +37,8 @@
             this.labelWebClientInterval = new System.Windows.Forms.Label();
             this.numericClientIntervalMs = new System.Windows.Forms.NumericUpDown();
             this.groupWebServer = new System.Windows.Forms.GroupBox();
+            this.numericExpectedMs = new System.Windows.Forms.NumericUpDown();
+            this.labelExpected = new System.Windows.Forms.Label();
             this.labelSynchTimeMs = new System.Windows.Forms.Label();
             this.numericSynchMs = new System.Windows.Forms.NumericUpDown();
             this.labelResponseMs = new System.Windows.Forms.Label();
@@ -52,12 +54,11 @@
             this.groupThreadPool = new System.Windows.Forms.GroupBox();
             this.groupQueuedRequests = new System.Windows.Forms.GroupBox();
             this.groupActiveRequests = new System.Windows.Forms.GroupBox();
-            this.labelExpected = new System.Windows.Forms.Label();
-            this.numericExpectedMs = new System.Windows.Forms.NumericUpDown();
             this.groupSyncVsAsync.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericCountThreads)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericClientIntervalMs)).BeginInit();
             this.groupWebServer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericExpectedMs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSynchMs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericIoMs)).BeginInit();
             this.groupWebClient.SuspendLayout();
@@ -65,7 +66,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericResponseCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericResponseMeanMs)).BeginInit();
             this.groupMetrics.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericExpectedMs)).BeginInit();
             this.SuspendLayout();
             // 
             // butRun
@@ -179,6 +179,41 @@
             this.groupWebServer.TabIndex = 3;
             this.groupWebServer.TabStop = false;
             this.groupWebServer.Text = "WebServer";
+            // 
+            // numericExpectedMs
+            // 
+            this.numericExpectedMs.DecimalPlaces = 4;
+            this.numericExpectedMs.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
+            this.numericExpectedMs.Location = new System.Drawing.Point(228, 16);
+            this.numericExpectedMs.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
+            this.numericExpectedMs.Name = "numericExpectedMs";
+            this.numericExpectedMs.ReadOnly = true;
+            this.numericExpectedMs.Size = new System.Drawing.Size(120, 23);
+            this.numericExpectedMs.TabIndex = 9;
+            this.numericExpectedMs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.numericExpectedMs.ThousandsSeparator = true;
+            this.numericExpectedMs.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // labelExpected
+            // 
+            this.labelExpected.AutoSize = true;
+            this.labelExpected.Location = new System.Drawing.Point(353, 19);
+            this.labelExpected.Name = "labelExpected";
+            this.labelExpected.Size = new System.Drawing.Size(124, 15);
+            this.labelExpected.TabIndex = 9;
+            this.labelExpected.Text = "Expected Response (s)";
             // 
             // labelSynchTimeMs
             // 
@@ -311,7 +346,7 @@
             this.labelMeanResponseTime.Name = "labelMeanResponseTime";
             this.labelMeanResponseTime.Size = new System.Drawing.Size(172, 15);
             this.labelMeanResponseTime.TabIndex = 2;
-            this.labelMeanResponseTime.Text = "Mean Response Time (Ms)";
+            this.labelMeanResponseTime.Text = "Mean Response Time (s)";
             this.labelMeanResponseTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelResponses
@@ -383,41 +418,6 @@
             this.groupActiveRequests.Text = "Active Requests";
             this.groupActiveRequests.Paint += new System.Windows.Forms.PaintEventHandler(this.groupActiveRequests_Paint);
             // 
-            // labelExpected
-            // 
-            this.labelExpected.AutoSize = true;
-            this.labelExpected.Location = new System.Drawing.Point(353, 19);
-            this.labelExpected.Name = "labelExpected";
-            this.labelExpected.Size = new System.Drawing.Size(127, 15);
-            this.labelExpected.TabIndex = 9;
-            this.labelExpected.Text = "Expected Response Ms";
-            // 
-            // numericExpectedMs
-            // 
-            this.numericExpectedMs.DecimalPlaces = 4;
-            this.numericExpectedMs.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            196608});
-            this.numericExpectedMs.Location = new System.Drawing.Point(228, 16);
-            this.numericExpectedMs.Maximum = new decimal(new int[] {
-            999999999,
-            0,
-            0,
-            0});
-            this.numericExpectedMs.Name = "numericExpectedMs";
-            this.numericExpectedMs.ReadOnly = true;
-            this.numericExpectedMs.Size = new System.Drawing.Size(120, 23);
-            this.numericExpectedMs.TabIndex = 9;
-            this.numericExpectedMs.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.numericExpectedMs.ThousandsSeparator = true;
-            this.numericExpectedMs.Value = new decimal(new int[] {
-            4000,
-            0,
-            0,
-            0});
-            // 
             // SyncVsAsyncForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -439,6 +439,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericClientIntervalMs)).EndInit();
             this.groupWebServer.ResumeLayout(false);
             this.groupWebServer.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericExpectedMs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSynchMs)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericIoMs)).EndInit();
             this.groupWebClient.ResumeLayout(false);
@@ -447,7 +448,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericResponseCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericResponseMeanMs)).EndInit();
             this.groupMetrics.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numericExpectedMs)).EndInit();
             this.ResumeLayout(false);
 
         }

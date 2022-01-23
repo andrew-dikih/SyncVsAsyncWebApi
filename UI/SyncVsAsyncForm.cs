@@ -5,6 +5,7 @@ namespace UI;
 
 public partial class SyncVsAsyncForm : Form
 {
+    private const int MILLISECONDS_PER_SECOND = 1_000;
     private readonly IThreadFactory _threadFactory;
     private readonly IWebClient _webClient;
     private IWebServer _webServer;
@@ -56,7 +57,7 @@ public partial class SyncVsAsyncForm : Form
         {
             numericRequestCount.Value = _metrics.TotalRequests.Count;
             numericResponseCount.Value = _metrics.TotalResponses.Count;
-            numericResponseMeanMs.Value = _metrics.MeanExecutionMs;
+            numericResponseMeanMs.Value = _metrics.MeanExecutionMs/MILLISECONDS_PER_SECOND;
             groupThreadPool.Text = $"Thread Pool ({_metrics.ThreadPool.Count})";
             groupQueuedRequests.Text = $"Queued Requests ({_metrics.QueuedRequests.Count})";
             groupActiveRequests.Text = $"Active Requests ({_metrics.ActiveRequests.Count})";
@@ -151,7 +152,7 @@ public partial class SyncVsAsyncForm : Form
 
     private void CalculateExpectedResponseMs()
     {
-        numericExpectedMs.Value = numericIoMs.Value + (numericSynchMs.Value * 2);
+        numericExpectedMs.Value = (numericIoMs.Value + (numericSynchMs.Value * 2))/ MILLISECONDS_PER_SECOND;
     }
 
     private void UpdateThreads()
