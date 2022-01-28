@@ -256,7 +256,7 @@
             // 
             this.numericIoMs.Location = new System.Drawing.Point(6, 114);
             this.numericIoMs.Maximum = new decimal(new int[] {
-            3000,
+            10000,
             0,
             0,
             0});
